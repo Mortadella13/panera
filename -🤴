@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rifa de Navidad</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px 0;
+        }
+        .content {
+            margin: 20px;
+        }
+        #contador {
+            font-size: 2rem;
+            margin: 20px 0;
+        }
+        .verificador {
+            margin-top: 20px;
+        }
+        .input-numero {
+            padding: 10px;
+            font-size: 1rem;
+        }
+        .boton-verificar {
+            padding: 10px 20px;
+            font-size: 1rem;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .boton-verificar:hover {
+            background-color: #45a049;
+        }
+        #resultado {
+            margin-top: 20px;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Rifa de Navidad</h1>
+    </header>
+    <div class="content">
+        <h2>El sorteo será el 7 de enero</h2>
+        <div id="contador">Cargando contador...</div>
+        <div class="verificador">
+            <h3>Verifica tu número</h3>
+            <input id="numero" type="text" class="input-numero" placeholder="Introduce tu número">
+            <button class="boton-verificar" onclick="verificarNumero()">Verificar</button>
+            <div id="resultado"></div>
+        </div>
+    </div>
+    <script>
+        // Contador regresivo
+        function iniciarContador() {
+            const fechaSorteo = new Date("2024-01-07T00:00:00").getTime();
+            const intervalo = setInterval(() => {
+                const ahora = new Date().getTime();
+                const diferencia = fechaSorteo - ahora;
+                if (diferencia <= 0) {
+                    document.getElementById("contador").innerText = "¡El sorteo ya ha comenzado!";
+                    clearInterval(intervalo);
+                } else {
+                    const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+                    const horas = Math.floor((diferencia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutos = Math.floor((diferencia % (1000 * 60 * 60)) / (1000 * 60));
+                    const segundos = Math.floor((diferencia % (1000 * 60)) / 1000);
+                    document.getElementById("contador").innerText =
+                        `${dias} días, ${horas} horas, ${minutos} minutos, ${segundos} segundos`;
+                }
+            }, 1000);
+        }
+
+        // Verificar número
+        const numerosPremiados = [1234, 5678, 9012]; // Sustituye por tus números premiados
+
+        function verificarNumero() {
+            const numero = parseInt(document.getElementById("numero").value);
+            const resultado = document.getElementById("resultado");
+            if (numerosPremiados.includes(numero)) {
+                resultado.innerText = `¡Felicidades! El número ${numero} está premiado.`;
+                resultado.style.color = "green";
+            } else {
+                resultado.innerText = `Lo sentimos, el número ${numero} no está premiado.`;
+                resultado.style.color = "red";
+            }
+        }
+
+        // Iniciar funciones
+        iniciarContador();
+    </script>
+</body>
+</html>
